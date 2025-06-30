@@ -97,14 +97,6 @@ public class ParametrosService {
     }
 
     @Transactional(readOnly = true)
-    public ProductoCreditoDTO obtenerProductoPorId(Integer id) {
-        log.info("Obteniendo producto de crédito con ID: {}", id);
-        ProductoCredito producto = productoCreditoRepository.findById(id)
-                .orElseThrow(() -> new ProductoCreditoNotFoundException(id));
-        return productoCreditoMapper.toDTO(producto);
-    }
-
-    @Transactional(readOnly = true)
     public ProductoCreditoDTO obtenerProductoPorCodigo(String codigo) {
         log.info("Obteniendo producto de crédito con código: {}", codigo);
         ProductoCredito producto = productoCreditoRepository.findByCodigoProducto(codigo)
@@ -230,14 +222,6 @@ public class ParametrosService {
         log.info("Tasa de interés actualizada exitosamente");
         
         return tasaInteresMapper.toDTO(tasaActualizada);
-    }
-
-    @Transactional(readOnly = true)
-    public TasaInteresDTO obtenerTasaPorId(Integer id) {
-        log.info("Obteniendo tasa de interés con ID: {}", id);
-        TasaInteres tasa = tasaInteresRepository.findById(id)
-                .orElseThrow(() -> new TasaInteresNotFoundException(id, "Tasa de interés no encontrada"));
-        return tasaInteresMapper.toDTO(tasa);
     }
 
     @Transactional(readOnly = true)
@@ -401,16 +385,6 @@ public class ParametrosService {
         log.info("Documento requerido actualizado exitosamente");
         
         return documentoRequeridoMapper.toDTO(documentoActualizado);
-    }
-
-    @Transactional(readOnly = true)
-    public DocumentoRequeridoDTO obtenerDocumentoPorId(Integer id) {
-        log.info("Obteniendo documento requerido con ID: {}", id);
-        
-        DocumentoRequerido documento = documentoRequeridoRepository.findById(id)
-                .orElseThrow(() -> new DocumentoRequeridoNotFoundException(id));
-        
-        return documentoRequeridoMapper.toDTO(documento);
     }
 
     @Transactional(readOnly = true)
