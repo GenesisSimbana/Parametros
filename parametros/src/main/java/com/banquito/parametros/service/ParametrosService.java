@@ -5,15 +5,13 @@ import com.banquito.parametros.controller.mapper.*;
 import com.banquito.parametros.exception.*;
 import com.banquito.parametros.model.*;
 import com.banquito.parametros.repository.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +24,7 @@ public class ParametrosService {
     private static final BigDecimal TASA_MAXIMA_VALIDO = new BigDecimal("50.00");
     private static final BigDecimal PORCENTAJE_MIN_FINANCIAMIENTO = new BigDecimal("10.00");
     private static final BigDecimal PORCENTAJE_MAX_FINANCIAMIENTO = new BigDecimal("100.00");
-    private static final int PLAZO_MAXIMO_MESES = 120;
+    private static final int PLAZO_MAXIMO_MESES = 72;
 
     private final ProductoCreditoRepository productoCreditoRepository;
     private final TasaInteresRepository tasaInteresRepository;
@@ -261,7 +259,6 @@ public class ParametrosService {
             throw new ValidacionNegocioException("fechaInicioVigencia", "TasaInteres", 
                     "La fecha de inicio de vigencia es requerida");
         }
-        
         if (dto.getFechaFinVigencia() != null && 
             dto.getFechaInicioVigencia().isAfter(dto.getFechaFinVigencia())) {
             throw new ValidacionNegocioException("fechaInicioVigencia", "TasaInteres", 
@@ -274,7 +271,6 @@ public class ParametrosService {
             throw new ValidacionNegocioException("valorTasa", "TasaInteres", 
                     "El valor de la tasa debe ser mayor a 0");
         }
-        
         if (dto.getValorTasa().compareTo(TASA_MAXIMA_VALIDO) > 0) {
             throw new ValidacionNegocioException("valorTasa", "TasaInteres", 
                     "El valor de la tasa no puede exceder " + TASA_MAXIMA_VALIDO + "%");
@@ -286,7 +282,6 @@ public class ParametrosService {
                 .findByProductoCreditoAndEstadoOrderByFechaInicioVigenciaDesc(
                         productoCreditoRepository.getReferenceById(dto.getIdProductoCredito()), 
                         EstadosParametros.EstadoActivoInactivo.ACTIVO);
-        
         TasaInteres nuevaTasa = tasaInteresMapper.toModel(dto);
         for (TasaInteres tasaExistente : tasasExistentes) {
             if (hayTraslape(nuevaTasa, tasaExistente)) {
@@ -332,7 +327,6 @@ public class ParametrosService {
                 .findByProductoCreditoAndEstadoOrderByFechaInicioVigenciaDesc(
                         nuevaTasa.getProductoCredito(), 
                         EstadosParametros.EstadoActivoInactivo.ACTIVO);
-        
         for (TasaInteres tasaActiva : tasasActivas) {
             if (tasaActiva.getFechaFinVigencia() == null) {
                 LocalDate fechaFin = nuevaTasa.getFechaInicioVigencia().minusDays(1);
@@ -400,7 +394,6 @@ public class ParametrosService {
                 .findByProductoCreditoAndEstadoOrderByNombreAsc(
                         productoCreditoRepository.getReferenceById(idProducto), 
                         EstadosParametros.EstadoActivoInactivo.ACTIVO);
-        
         return documentos.stream()
                 .map(documentoRequeridoMapper::toDTO)
                 .collect(Collectors.toList());
