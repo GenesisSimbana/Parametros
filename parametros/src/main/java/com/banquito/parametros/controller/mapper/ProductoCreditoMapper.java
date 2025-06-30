@@ -26,8 +26,6 @@ public class ProductoCreditoMapper {
         productoCredito.setPlazoMinimoMeses(dto.getPlazoMinimoMeses());
         productoCredito.setPlazoMaximoMeses(dto.getPlazoMaximoMeses());
         productoCredito.setPorcentajeMaxFinanciamiento(dto.getPorcentajeMaxFinanciamiento());
-        
-        // Conversión segura del enum CondicionVehiculo
         if (dto.getCondicionVehiculo() != null) {
             try {
                 productoCredito.setCondicionVehiculo(EstadosParametros.CondicionVehiculo.valueOf(dto.getCondicionVehiculo()));
@@ -35,8 +33,6 @@ public class ProductoCreditoMapper {
                 throw new IllegalArgumentException("Condición de vehículo inválida: " + dto.getCondicionVehiculo());
             }
         }
-        
-        // Conversión segura del enum Estado
         if (dto.getEstado() != null) {
             try {
                 productoCredito.setEstado(EstadosParametros.EstadoActivoInactivo.valueOf(dto.getEstado()));
@@ -63,13 +59,9 @@ public class ProductoCreditoMapper {
         productoCreditoDTO.setPlazoMinimoMeses(model.getPlazoMinimoMeses());
         productoCreditoDTO.setPlazoMaximoMeses(model.getPlazoMaximoMeses());
         productoCreditoDTO.setPorcentajeMaxFinanciamiento(model.getPorcentajeMaxFinanciamiento());
-        
-        // Conversión segura del enum CondicionVehiculo
         if (model.getCondicionVehiculo() != null) {
             productoCreditoDTO.setCondicionVehiculo(model.getCondicionVehiculo().name());
         }
-        
-        // Conversión segura del enum Estado
         if (model.getEstado() != null) {
             productoCreditoDTO.setEstado(model.getEstado().name());
         }
@@ -81,7 +73,6 @@ public class ProductoCreditoMapper {
         if (modelList == null || modelList.isEmpty()) {
             return List.of();
         }
-
         return modelList.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
@@ -91,7 +82,6 @@ public class ProductoCreditoMapper {
         if (dtoList == null || dtoList.isEmpty()) {
             return List.of();
         }
-
         return dtoList.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());

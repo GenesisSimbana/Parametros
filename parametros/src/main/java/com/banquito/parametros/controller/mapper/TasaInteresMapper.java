@@ -2,7 +2,6 @@ package com.banquito.parametros.controller.mapper;
 
 import com.banquito.parametros.controller.dto.TasaInteresDTO;
 import com.banquito.parametros.model.TasaInteres;
-import com.banquito.parametros.model.ProductoCredito;
 import com.banquito.parametros.model.EstadosParametros;
 import org.springframework.stereotype.Component;
 
@@ -51,12 +50,9 @@ public class TasaInteresMapper {
         tasaInteresDTO.setValorTasa(model.getValorTasa());
         tasaInteresDTO.setFechaInicioVigencia(model.getFechaInicioVigencia());
         tasaInteresDTO.setFechaFinVigencia(model.getFechaFinVigencia());
-        
-        // Conversión segura del enum
         if (model.getEstado() != null) {
             tasaInteresDTO.setEstado(model.getEstado().name());
         }
-
         return tasaInteresDTO;
     }
 
@@ -64,7 +60,6 @@ public class TasaInteresMapper {
         if (modelList == null || modelList.isEmpty()) {
             return List.of();
         }
-
         return modelList.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
@@ -74,7 +69,6 @@ public class TasaInteresMapper {
         if (dtoList == null || dtoList.isEmpty()) {
             return List.of();
         }
-
         return dtoList.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());

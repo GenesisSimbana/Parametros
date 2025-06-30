@@ -3,7 +3,6 @@ package com.banquito.parametros.controller.mapper;
 import com.banquito.parametros.controller.dto.DocumentoRequeridoDTO;
 import com.banquito.parametros.model.DocumentoRequerido;
 import com.banquito.parametros.model.EstadosParametros;
-import com.banquito.parametros.model.ProductoCredito;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,12 +17,10 @@ public class DocumentoRequeridoMapper {
         }
         DocumentoRequerido documentoRequerido = new DocumentoRequerido();
         documentoRequerido.setIdDocumentoRequerido(dto.getIdDocumentoRequerido());
-        // No crear ProductoCredito aquí, solo establecer el ID
         documentoRequerido.setIdProductoCredito(dto.getIdProductoCredito());
         documentoRequerido.setNombre(dto.getNombre());
         documentoRequerido.setDescripcion(dto.getDescripcion());
         documentoRequerido.setExtension(dto.getExtension());
-        // Conversión segura del enum
         if (dto.getEstado() != null) {
             try {
                 documentoRequerido.setEstado(EstadosParametros.EstadoActivoInactivo.valueOf(dto.getEstado()));
@@ -31,7 +28,6 @@ public class DocumentoRequeridoMapper {
                 throw new IllegalArgumentException("Estado inválido: " + dto.getEstado());
             }
         }
-        // NO asignar version aquí
         return documentoRequerido;
     }
 
@@ -47,7 +43,6 @@ public class DocumentoRequeridoMapper {
         documentoRequeridoDTO.setDescripcion(model.getDescripcion());
         documentoRequeridoDTO.setExtension(model.getExtension());
         
-        // Conversión segura del enum
         if (model.getEstado() != null) {
             documentoRequeridoDTO.setEstado(model.getEstado().name());
         }
