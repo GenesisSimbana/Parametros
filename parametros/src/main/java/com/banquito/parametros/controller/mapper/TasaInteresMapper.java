@@ -24,7 +24,6 @@ public class TasaInteresMapper {
         tasaInteres.setValorTasa(dto.getValorTasa());
         tasaInteres.setFechaInicioVigencia(dto.getFechaInicioVigencia());
         tasaInteres.setFechaFinVigencia(dto.getFechaFinVigencia());
-        // Conversión segura del enum
         if (dto.getEstado() != null) {
             try {
                 tasaInteres.setEstado(EstadosParametros.EstadoActivoInactivo.valueOf(dto.getEstado()));
@@ -32,7 +31,6 @@ public class TasaInteresMapper {
                 throw new IllegalArgumentException("Estado inválido: " + dto.getEstado());
             }
         }
-        // NO asignar version aquí
         return tasaInteres;
     }
 

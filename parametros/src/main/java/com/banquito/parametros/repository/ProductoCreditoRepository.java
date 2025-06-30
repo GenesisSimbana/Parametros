@@ -12,10 +12,7 @@ import java.util.Optional;
 public interface ProductoCreditoRepository extends JpaRepository<ProductoCredito, Integer> {
 
     Optional<ProductoCredito> findByCodigoProducto(String codigoProducto);
-
     List<ProductoCredito> findByEstado(EstadosParametros.EstadoActivoInactivo estado);
-
     boolean existsByCodigoProducto(String codigoProducto);
-
     List<ProductoCredito> findByEstadoOrderByNombreAsc(EstadosParametros.EstadoActivoInactivo estado);
 } 

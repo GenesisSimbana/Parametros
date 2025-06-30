@@ -153,7 +153,6 @@ public class ParametrosService {
             throw new ValidacionNegocioException("plazoMinimoMeses", "ProductoCredito", 
                     "Los plazos deben estar entre 1 y " + PLAZO_MAXIMO_MESES + " meses");
         }
-        
         if (dto.getPlazoMinimoMeses() >= dto.getPlazoMaximoMeses()) {
             throw new ValidacionNegocioException("plazoMinimoMeses", "ProductoCredito", 
                     "El plazo mínimo debe ser menor al plazo máximo");
@@ -313,13 +312,19 @@ public class ParametrosService {
     }
 
     private boolean hayTraslape(TasaInteres tasa1, TasaInteres tasa2) {
-        LocalDate inicio1 = tasa1.getFechaInicioVigencia();
-        LocalDate fin1 = tasa1.getFechaFinVigencia();
-        LocalDate inicio2 = tasa2.getFechaInicioVigencia();
-        LocalDate fin2 = tasa2.getFechaFinVigencia();
-        if (fin1 == null) fin1 = LocalDate.MAX;
-        if (fin2 == null) fin2 = LocalDate.MAX;
-        return !inicio1.isAfter(fin2) && !inicio2.isAfter(fin1);
+        LocalDate fechaInicioTasa1 = tasa1.getFechaInicioVigencia();
+        LocalDate fechaFinTasa1 = tasa1.getFechaFinVigencia();
+        LocalDate fechaInicioTasa2 = tasa2.getFechaInicioVigencia();
+        LocalDate fechaFinTasa2 = tasa2.getFechaFinVigencia();
+        if (fechaFinTasa1 == null) {
+            fechaFinTasa1 = LocalDate.MAX;
+        }
+        if (fechaFinTasa2 == null) {
+            fechaFinTasa2 = LocalDate.MAX;
+        }boolean primeraCondicion = !fechaInicioTasa1.isAfter(fechaFinTasa2);
+        boolean segundaCondicion = !fechaInicioTasa2.isAfter(fechaFinTasa1);
+        boolean hayTraslape = primeraCondicion && segundaCondicion;
+        return hayTraslape;
     }
 
     private void cerrarTasaAnterior(TasaInteres nuevaTasa) {

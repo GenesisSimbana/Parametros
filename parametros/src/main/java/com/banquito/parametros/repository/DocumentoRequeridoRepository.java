@@ -12,10 +12,7 @@ import java.util.List;
 public interface DocumentoRequeridoRepository extends JpaRepository<DocumentoRequerido, Integer> {
 
     List<DocumentoRequerido> findByProductoCreditoOrderByNombreAsc(ProductoCredito productoCredito);
-
     List<DocumentoRequerido> findByProductoCreditoAndEstadoOrderByNombreAsc(ProductoCredito productoCredito, EstadosParametros.EstadoActivoInactivo estado);
-
     List<DocumentoRequerido> findByEstadoOrderByProductoCreditoAscNombreAsc(EstadosParametros.EstadoActivoInactivo estado);
-
     boolean existsByProductoCreditoAndNombre(ProductoCredito productoCredito, String nombre);
 } 
